@@ -1,51 +1,109 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Converte a moeda brasileira (R$) para a moeda americana (US$) de uma forma simples e rápida.">
-    <meta name="keywords" content="HTML, CSS, JavaScript, conversor, moeda, câmbio, dólar, real">
-    <meta name="author" content="Alexandre Xan">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Converte a moeda brasileira (R$) para a moeda americana (US$) de uma forma simples e rápida."
+    />
+    <meta
+      name="keywords"
+      content="HTML, CSS, JavaScript, conversor, moeda, câmbio, dólar, real"
+    />
+    <meta name="author" content="Alexandre Xan" />
 
-    <title data-i18n="title">Conversor R$ > US$</title>
+    <title>Conversor BRL → USD</title>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png"> 
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png"> 
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png"> 
-    <link rel="manifest" href="favicon/site.webmanifest">
-    
-    <link rel="stylesheet" href="style.css">
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="favicon/site.webmanifest" />
 
-</head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <div class="idioma">
-            <button class="flag-btn" data-lang="pt-br" aria-label="Português (Brasil)">
-                <img src="https://flagcdn.com/w40/br.png" alt="Bandeira do Brasil">
-            </button>
-            <button class="flag-btn" data-lang="en-us" aria-label="English (United States)">
-                <img src="https://flagcdn.com/w40/us.png" alt="Bandeira dos Estados Unidos">
-            </button>
+      <p class="descricao">Conversão em tempo real utilizando API de câmbio.</p>
+      <h1>Conversor BRL → USD</h1>
+      <div id="cotacaoAtual">Carregando cotação do Dólar...</div>
+
+      <div class="grafico-card">
+        <div class="grafico-header">
+          <span>Últimos 7 dias</span>
+          <span class="api-consumo"
+            >Consumo API: <strong id="apiConsumo">0</strong></span
+          >
         </div>
-
-        <p class="descricao" data-i18n="descricao">Transforme valores de reais em dólares com base na cotação atual.</p>
-        <h1 data-i18n="titulo">Conversor R$ > US$</h1>
-        <div id="cotacaoAtual" data-i18n="cotacao">Carregando cotação do Dólar...</div>
-
-        <label for="valorCarteira" data-i18n="labelCarteira">Quanto você tem na carteira (R$)?</label>
-        <input type="number" id="valorCarteira" placeholder="Ex: 1000.00" step="0.01">
-
-        <button onclick="converter()" data-i18n="botaoConverter">Converter</button>
-
-        <p id="resultado"></p>
-
-        <div class="criador">
-            <p data-i18n="creditos">Criado por <strong><a href="https://github.com/alexandrexan" target="_blank">XAN</a></strong></p>
+        <div class="grafico-metricas">
+          <span>Máx: <strong id="valorMaximo">R$ 0,00</strong></span>
+          <span>Min: <strong id="valorMinimo">R$ 0,00</strong></span>
         </div>
+        <canvas
+          id="graficoCotacao"
+          width="380"
+          height="180"
+          aria-label="Gráfico da cotação do dólar nos últimos sete dias"
+        ></canvas>
+      </div>
+
+      <label for="valorCarteira">Quanto você tem na carteira (R$)?</label>
+      <input
+        type="text"
+        inputmode="decimal"
+        id="valorCarteira"
+        placeholder="R$ 1.000,00"
+      />
+
+      <div class="acoes">
+        <button onclick="converter()">Converter</button>
+        <button class="secondary" onclick="limpar()">Limpar</button>
+      </div>
+
+      <p id="resultado"></p>
+
+      <div class="rodape">
+        <span class="rodape-item">API: AwesomeAPI</span>
+        <span class="rodape-item">
+          Última atualização:
+          <strong id="ultimaAtualizacao"></strong>
+        </span>
+        <a
+          class="rodape-link"
+          href="https://github.com/xampsdev"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <svg
+            class="github-icon"
+            viewBox="0 0 16 16"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.13 0 0 .67-.21 2.2.82A7.66 7.66 0 018 4.6c.68.01 1.36.09 2 .26 1.53-1.04 2.2-.82 2.2-.82.44 1.11.16 1.93.08 2.13.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.19 0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8Z"
+            />
+          </svg>
+          GitHub Xan
+        </a>
+      </div>
     </div>
 
     <script src="script.js"></script>
-    <script src="traducao.js"></script>
-</body>
+  </body>
 </html>
