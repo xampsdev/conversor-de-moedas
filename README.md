@@ -1,4 +1,6 @@
-Conversor de Moeda (R$ > US$)
+Conversor BRL → USD
+
+https://xampsdev.github.io/conversor-de-moedas/
 
 Desenvolvi uma aplicação web simples e funcional para conversão de Real para Dólar, consumindo dados em tempo real da Awesome API. O projeto foi construído com HTML5, CSS3 e JavaScript, com foco em:
 
