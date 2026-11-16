@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Converte a moeda brasileira (R$) para a moeda americana (US$) de uma forma simples e rápida."
+      content="Converte Real Brasileiro (BRL) e Dólar Americano (USD) em ambas as direções, com cotação atualizada."
     />
     <meta
       name="keywords"
@@ -13,7 +13,7 @@
     />
     <meta name="author" content="Alexandre Xan" />
 
-    <title>Conversor BRL → USD</title>
+    <title>Conversor BRL ⇄ USD</title>
 
     <link
       rel="apple-touch-icon"
@@ -40,7 +40,7 @@
   <body>
     <div class="container">
       <p class="descricao">Conversão em tempo real utilizando API de câmbio.</p>
-      <h1>Conversor BRL → USD</h1>
+      <h1 id="tituloConversor">Conversor BRL → USD</h1>
       <div id="cotacaoAtual">Carregando cotação do Dólar...</div>
 
       <div class="grafico-card">
@@ -62,7 +62,29 @@
         ></canvas>
       </div>
 
-      <label for="valorCarteira">Quanto você tem na carteira (R$)?</label>
+      <div class="direcao-conversao" aria-label="Direção da conversão">
+        <label for="moedaOrigem">De</label>
+        <select id="moedaOrigem" aria-label="Moeda de origem">
+          <option value="BRL">BRL — Real brasileiro</option>
+          <option value="USD">USD — Dólar americano</option>
+        </select>
+        <button
+          type="button"
+          class="botao-inverter"
+          id="inverterMoedas"
+          aria-label="Inverter moedas"
+          title="Inverter moedas"
+        >
+          ⇄
+        </button>
+        <label for="moedaDestino">Para</label>
+        <select id="moedaDestino" aria-label="Moeda de destino">
+          <option value="USD">USD — Dólar americano</option>
+          <option value="BRL">BRL — Real brasileiro</option>
+        </select>
+      </div>
+
+      <label id="labelValorCarteira" for="valorCarteira">Quanto você tem na carteira (R$)?</label>
       <input
         type="text"
         inputmode="decimal"

@@ -4,6 +4,40 @@ let apiCallCount = 0;
 const COTACAO_LOCAL_KEY = "conversorCotacaoDolar";
 const HISTORICO_LOCAL_KEY = "conversorHistoricoCotacao";
 
+function obterMoedaOrigem() {
+  return document.getElementById("moedaOrigem")?.value || "BRL";
+}
+
+function obterMoedaDestino() {
+  return document.getElementById("moedaDestino")?.value || "USD";
+}
+
+function formatarMoeda(valor, moeda) {
+  return valor.toLocaleString(moeda === "BRL" ? "pt-BR" : "en-US", {
+    style: "currency",
+    currency: moeda,
+  });
+}
+
+function atualizarInterfaceDirecao() {
+  const origem = obterMoedaOrigem();
+  const destino = obterMoedaDestino();
+  const titulo = document.getElementById("tituloConversor");
+  const label = document.getElementById("labelValorCarteira");
+  const campo = document.getElementById("valorCarteira");
+
+  if (titulo) titulo.textContent = `Conversor ${origem} → ${destino}`;
+  document.title = `Conversor ${origem} → ${destino}`;
+  if (label) {
+    label.textContent = `Quanto você tem na carteira (${origem === "BRL" ? "R$" : "US$"})?`;
+  }
+  if (campo) {
+    campo.placeholder = origem === "BRL" ? "R$ 1.000,00" : "$1,000.00";
+  }
+
+  limpar();
+}
+
 function atualizarConsumoApi() {
   const elementoApi = document.getElementById("apiConsumo");
   if (elementoApi) {
@@ -225,15 +259,14 @@ function renderGraficoCotacao(historico) {
 }
 
 // Função para normalizar entrada de números brasileiros
-function normalizarNumerobrasileiro(valorString) {
+function normalizarNumeroMoeda(valorString, moeda) {
   // Remove todos os caracteres exceto dígitos, ponto e vírgula
   valorString = valorString.replace(/[^\d.,]/g, "").trim();
 
-  // Se não tem vírgula, assume que pontos são separadores de milhares
-  if (!valorString.includes(",")) {
-    valorString = valorString.replace(/\./g, "");
-  } else {
+  if (moeda === "BRL") {
     valorString = valorString.replace(/\./g, "").replace(",", ".");
+  } else {
+    valorString = valorString.replace(/,/g, "");
   }
 
   return valorString;
@@ -246,10 +279,12 @@ function isNumeroValido(numeroString) {
   return !isNaN(numero) && numero >= 0;
 }
 
-// Função para converter Real para Dólar
+// Converte entre Real e Dólar de acordo com a direção selecionada.
 function converter(isAuto = false) {
   const valorCarteiraInput = document.getElementById("valorCarteira").value;
   const resultadoElement = document.getElementById("resultado");
+  const origem = obterMoedaOrigem();
+  const destino = obterMoedaDestino();
 
   // Remove a classe de erro anterior
   resultadoElement.classList.remove("error");
@@ -265,8 +300,7 @@ function converter(isAuto = false) {
     return;
   }
 
-  // Normaliza o número brasileiro para formato internacional
-  const valorNormalizado = normalizarNumerobrasileiro(valorCarteiraInput);
+  const valorNormalizado = normalizarNumeroMoeda(valorCarteiraInput, origem);
 
   // Valida se o número é válido
   if (!isNumeroValido(valorNormalizado)) {
@@ -281,28 +315,23 @@ function converter(isAuto = false) {
   // Converte para número
   const valorCarteira = parseFloat(valorNormalizado);
 
-  // Calcula o valor em dólares
-  const valorEmDolar = valorCarteira / cotacaoDolarAtual;
+  const valorConvertido =
+    origem === "BRL"
+      ? valorCarteira / cotacaoDolarAtual
+      : valorCarteira * cotacaoDolarAtual;
 
-  // Exibe o resultado formatado no padrão brasileiro
-  const valorReaisFormatado = valorCarteira.toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  });
-
-  const valorDolarFormatado = valorEmDolar.toLocaleString("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
+  const valorOrigemFormatado = formatarMoeda(valorCarteira, origem);
+  const valorDestinoFormatado = formatarMoeda(valorConvertido, destino);
 
   // Exibe o resultado formatado
-  resultadoElement.textContent = `${valorReaisFormatado} equivalem a ${valorDolarFormatado}`;
+  resultadoElement.textContent = `${valorOrigemFormatado} equivalem a ${valorDestinoFormatado}`;
   resultadoElement.style.display = "block";
 }
 
-// Função para formatar entrada em tempo real como moeda BRL
+// Formata a entrada com o padrão da moeda de origem selecionada.
 function formatarEntrada() {
   const campo = document.getElementById("valorCarteira");
+  const moeda = obterMoedaOrigem();
   const valorAtual = campo.value;
   const posicaoAtual = campo.selectionStart;
 
@@ -310,15 +339,18 @@ function formatarEntrada() {
     .slice(0, posicaoAtual)
     .replace(/\D/g, "").length;
 
-  // Remove tudo exceto dígitos e vírgula
-  let valor = valorAtual.replace(/[^\d,]/g, "");
+  const separadorDecimal = moeda === "BRL" ? "," : ".";
+  const locale = moeda === "BRL" ? "pt-BR" : "en-US";
+  const simbolo = moeda === "BRL" ? "R$ " : "$";
+  const regexPermitido = moeda === "BRL" ? /[^\d,]/g : /[^\d.]/g;
+  let valor = valorAtual.replace(regexPermitido, "");
 
   if (!valor) {
     campo.value = "";
     return;
   }
 
-  const partes = valor.split(",");
+  const partes = valor.split(separadorDecimal);
   const inteiro = partes[0].replace(/^0+(?=\d)/, "") || "0";
   let decimal = partes[1] || "";
 
@@ -326,18 +358,18 @@ function formatarEntrada() {
     decimal = decimal.slice(0, 2);
   }
 
-  const inteiroFormatado = new Intl.NumberFormat("pt-BR").format(
+  const inteiroFormatado = new Intl.NumberFormat(locale).format(
     parseInt(inteiro, 10),
   );
   const novoValor = decimal
-    ? `R$ ${inteiroFormatado},${decimal}`
-    : `R$ ${inteiroFormatado},00`;
+    ? `${simbolo}${inteiroFormatado}${separadorDecimal}${decimal}`
+    : `${simbolo}${inteiroFormatado}${separadorDecimal}00`;
 
   campo.value = novoValor;
 
   let novaPosicao = 0;
   if (digitosAntesCursor === 0) {
-    novaPosicao = novoValor.indexOf(" ") + 1;
+    novaPosicao = simbolo.length;
   } else {
     let contadorDigitos = 0;
     for (let i = 0; i < novoValor.length; i += 1) {
@@ -415,6 +447,29 @@ function atualizarUltimaAtualizacao() {
 document.addEventListener("DOMContentLoaded", function () {
   buscarCotacaoDolar();
   atualizarUltimaAtualizacao();
+
+  const moedaOrigem = document.getElementById("moedaOrigem");
+  const moedaDestino = document.getElementById("moedaDestino");
+  const inverterMoedas = document.getElementById("inverterMoedas");
+
+  moedaOrigem?.addEventListener("change", () => {
+    moedaDestino.value = moedaOrigem.value === "BRL" ? "USD" : "BRL";
+    atualizarInterfaceDirecao();
+  });
+
+  moedaDestino?.addEventListener("change", () => {
+    moedaOrigem.value = moedaDestino.value === "BRL" ? "USD" : "BRL";
+    atualizarInterfaceDirecao();
+  });
+
+  inverterMoedas?.addEventListener("click", () => {
+    const origemAtual = moedaOrigem.value;
+    moedaOrigem.value = moedaDestino.value;
+    moedaDestino.value = origemAtual;
+    atualizarInterfaceDirecao();
+  });
+
+  atualizarInterfaceDirecao();
 
   document.addEventListener("keydown", handleKeyPress);
 

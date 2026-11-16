@@ -1,11 +1,11 @@
-# Conversor de Moedas — BRL → USD
+# Conversor de Moedas — BRL ⇄ USD
 
 <p align="center">
   <img src="./previa/conversor-brl-usd.png" alt="Preview do Conversor de Moedas" width="600">
 </p>
 
 <p align="center">
-  Uma aplicação web responsiva para conversão de Real Brasileiro (BRL) para Dólar Americano (USD), utilizando cotação atualizada através de uma API externa.
+  Uma aplicação web responsiva para conversão entre Real Brasileiro (BRL) e Dólar Americano (USD), utilizando cotação atualizada através de uma API externa.
 </p>
 
 <p align="center">
@@ -20,13 +20,14 @@
 
 Este projeto foi desenvolvido para praticar e aplicar conceitos de desenvolvimento Front-End, com foco em consumo de API, manipulação do DOM e criação de uma interface simples, responsiva e funcional.
 
-A aplicação consulta a cotação atual do dólar e calcula quanto um determinado valor em reais representa em dólares americanos.
+A aplicação consulta a cotação atual do dólar e calcula valores em ambas as direções: de reais para dólares e de dólares para reais.
 
 ---
 
 ## Funcionalidades
 
-- Conversão de BRL para USD
+- Conversão de BRL para USD e de USD para BRL
+- Seleção da moeda de origem e inversão rápida da direção de conversão
 - Consulta da cotação atual do dólar através de API
 - Validação do valor inserido pelo usuário
 - Tratamento de entradas inválidas
@@ -71,7 +72,7 @@ Os dados da cotação são obtidos através da [AwesomeAPI](https://docs.awesome
 
 ## Acessar o projeto
 
-🔗 [Conversor de Moedas — BRL → USD](https://xampsdev.github.io/conversor-de-moedas/)
+🔗 [Conversor de Moedas — BRL ⇄ USD](https://xampsdev.github.io/conversor-de-moedas/)
 
 ---
 
