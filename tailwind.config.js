@@ -7,6 +7,7 @@ export default {
       fontFamily: {
         sans: ['"Inter"', "system-ui", "-apple-system", "sans-serif"],
         display: ['"Manrope"', "system-ui", "-apple-system", "sans-serif"],
+        mono: ['"JetBrains Mono"', "ui-monospace", "SFMono-Regular", "monospace"],
       },
     },
   },

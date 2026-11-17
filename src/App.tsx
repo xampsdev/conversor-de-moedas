@@ -97,7 +97,7 @@ export function App() {
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-gradient-to-b from-[#0b0f19] via-[#0d1322] to-[#111827] text-slate-100">
+    <div className="relative flex min-h-[100dvh] flex-col overflow-x-hidden bg-gradient-to-b from-[#0b0f19] via-[#0d1322] to-[#111827] text-slate-100">
       {/* Subtle ambient background glows */}
       <div
         className="pointer-events-none absolute -top-32 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-blue-600/15 blur-[110px]"
@@ -112,14 +112,14 @@ export function App() {
         aria-hidden="true"
       />
 
-      <main className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 py-10 sm:px-6 sm:py-14">
-        <div className="w-full max-w-xl rounded-3xl bg-slate-900/75 p-6 shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.08)] backdrop-blur-2xl sm:p-8">
-          <header className="mb-6 flex items-start justify-between gap-4">
+      <main className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 py-6 sm:p-6">
+        <div className="flex w-full max-w-xl flex-col gap-3 rounded-3xl bg-slate-900/75 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.5),0_0_0_1px_rgba(255,255,255,0.08)] backdrop-blur-2xl sm:gap-4 sm:p-6 md:p-8">
+          <header className="flex items-start justify-between gap-3">
             <div className="flex flex-col">
-              <h1 className="text-balance font-display text-2xl font-bold tracking-tight text-white sm:text-[32px] sm:leading-[40px]">
+              <h1 className="text-balance font-display text-xl font-bold tracking-tight text-white sm:text-2xl md:text-[32px] md:leading-[40px]">
                 Conversão de Moedas
               </h1>
-              <p className="mt-0.5 text-sm text-slate-400">
+              <p className="mt-0.5 text-xs text-slate-400 sm:text-sm">
                 Simples, rápida e sem complicação pro seu dia a dia
               </p>
             </div>
@@ -189,7 +189,7 @@ export function App() {
                   </span>
 
                   {effectiveRateBadge && (
-                    <span className="rounded border border-white/[0.06] bg-slate-800/80 px-2 py-0.5 font-sans text-xs font-medium text-slate-300 tabular-nums">
+                    <span className="rounded border border-white/[0.06] bg-slate-800/80 px-2 py-0.5 font-mono text-[11px] font-medium text-slate-300 tabular-nums sm:text-xs">
                       {effectiveRateBadge}
                     </span>
                   )}
@@ -209,7 +209,7 @@ export function App() {
         </div>
       </main>
 
-      <footer className="relative z-10 mt-auto w-full border-t border-white/[0.06] bg-[#080c14]/90 py-5 backdrop-blur-xl">
+      <footer className="relative z-10 mt-auto w-full border-t border-white/[0.06] bg-[#080c14]/90 py-4 backdrop-blur-xl sm:py-5">
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-3 px-5 text-center sm:flex-row sm:px-8 sm:text-left">
           <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-slate-400 sm:justify-start sm:gap-3">
             <div className="flex items-center gap-1.5 font-medium text-slate-300">

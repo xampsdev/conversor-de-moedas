@@ -22,7 +22,7 @@ export function StatusFeedback({
   }
 
   return (
-    <div className="mb-4 flex flex-col gap-2.5" aria-live="polite">
+    <div className="flex flex-col gap-2.5" aria-live="polite">
       {validationError && (
         <div
           id={validationErrorId}
