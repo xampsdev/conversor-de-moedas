@@ -1,83 +1,66 @@
-# Conversor de Moedas — BRL ⇄ USD
+# Conversor de Moedas — BRL ↔ USD
 
-<p align="center">
-  <img src="./previa/conversor-brl-usd.png" alt="Preview do Conversor de Moedas" width="600">
+Aplicação web moderna e responsiva para conversão em tempo real entre **Real Brasileiro (BRL)** e **Dólar Americano (USD)**, desenvolvida com foco em performance, acessibilidade e arquitetura escalável de Front-End.
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/71320558-8017-4ff2-914f-b1221631d262" alt="Demonstração da aplicação" height="450">
 </p>
 
-<p align="center">
-  Uma aplicação web responsiva para conversão entre Real Brasileiro (BRL) e Dólar Americano (USD), utilizando cotação atualizada através de uma API externa.
-</p>
 
-<p align="center">
-  <a href="https://xampsdev.github.io/conversor-de-moedas/">
-    Acessar projeto
-  </a>
-</p>
+**Acesse o projeto online:** [xampsdev.github.io/conversor-de-moedas](https://xampsdev.github.io/conversor-de-moedas/)
 
 ---
 
-## Sobre o projeto
+## Sobre o Projeto
 
-Este projeto foi desenvolvido para praticar e aplicar conceitos de desenvolvimento Front-End, com foco em consumo de API, manipulação do DOM e criação de uma interface simples, responsiva e funcional.
+Originalmente construído em HTML, CSS e JavaScript Vanilla para praticar manipulação do DOM e consumo de APIs REST, o projeto foi completamente refatorado para uma arquitetura moderna baseada em componentes utilizando **React**, **TypeScript** e **Tailwind CSS**, mantendo uma interface minimalista inspirada em plataformas fintech (*dark mode*, tipografia tabular e microinterações).
 
-A aplicação consulta a cotação atual do dólar e calcula valores em ambas as direções: de reais para dólares e de dólares para reais.
+### Fluxo de Design e Engenharia Assistida por IA
+
+A evolução visual e arquitetural desta versão contou com ferramentas modernas de design e desenvolvimento:
+- **Google Stitch:** Utilizado na ideação e prototipação da nova identidade visual (UI/UX), definição de hierarquia de informação, espaçamentos e estados de interface.
+- **Google AI Studio (Build Mode):** Empregado para migrar o código legado para a estrutura modular em React + TypeScript + Tailwind CSS e validar componentes em tempo real.
+- **Google Gemini:** Utilizado como copiloto técnico para engenharia de prompts, refatoração arquitetural, implementação de máscara monetária internacionalizada, ajustes de responsividade mobile-first e configuração de CI/CD para o GitHub Pages.
 
 ---
 
 ## Funcionalidades
 
-- Conversão de BRL para USD e de USD para BRL
-- Seleção da moeda de origem e inversão rápida da direção de conversão
-- Consulta da cotação atual do dólar através de API
-- Validação do valor inserido pelo usuário
-- Tratamento de entradas inválidas
-- Feedback visual para diferentes estados da aplicação
-- Interface responsiva para diferentes tamanhos de tela
-- Microinterações com hover, foco e transições
-- Atualização dinâmica do conteúdo através da manipulação do DOM
+- **Conversão Bidirecional Instantânea:** Cálculo em tempo real de **BRL → USD** e **USD → BRL** com inversão rápida de direção.
+- **Máscara Monetária Inteligente:** Formatação automática com separadores de milhar e casas decimais adaptados ao padrão de cada moeda (`pt-BR` para Real e `en-US` para Dólar).
+- **Cotação ao Vivo + Cache Local:** Consulta atualizada via **AwesomeAPI** com fallback em `localStorage`, exibição de data/hora da última atualização e botão de atualização manual.
+- **Atalhos de Valores Rápidos:** Seleção ágil de montantes pré-definidos (`100`, `500`, `1.000`, `5.000`).
+- **Feedback Visual de Estados:** Indicadores de carregamento (*skeleton*), tratamento de falhas de rede/API com opção de nova tentativa e validação rigorosa de entrada.
+- **Responsividade e Acessibilidade (A11y):** Layout *mobile-first* otimizado para diferentes resoluções, navegação por teclado (`:focus-visible`) e atributos semânticos ARIA.
 
 ---
 
-## Tecnologias utilizadas
+## Tecnologias Utilizadas
 
-- HTML5
-- CSS3
-- JavaScript
-- Fetch API
-- API REST
-- JSON
-- Git
-- GitHub
+- **Core:** React 18, TypeScript, Vite
+- **Estilização:** Tailwind CSS, Lucide React (ícones)
+- **Integração:** Fetch API, AwesomeAPI (`USD-BRL` / `BRL-USD`)
+- **Deploy & CI/CD:** GitHub Pages, GitHub Actions
 
 ---
 
-## API
+## Arquitetura do Projeto
 
-Os dados da cotação são obtidos através da [AwesomeAPI](https://docs.awesomeapi.com.br/api-de-moedas).
-
----
-
-## Conceitos praticados
-
-- Consumo de APIs externas
-- Requisições assíncronas com `fetch()`
-- Manipulação do DOM
-- Validação de dados
-- Tratamento de erros
-- Responsividade
-- UI/UX
-- Organização de código
-
----
-
-## Acessar o projeto
-
-🔗 [Conversor de Moedas — BRL ⇄ USD](https://xampsdev.github.io/conversor-de-moedas/)
-
----
-
-## Autor
-
-Desenvolvido por **XAN**
-
-- GitHub: [@xampsdev](https://github.com/xampsdev)
+```text
+conversor-de-moedas/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml          # Pipeline de build e deploy automático no GitHub Pages
+├── public/                     # Assets estáticos e favicon
+├── src/
+│   ├── components/             # Componentes modulares de interface (cards, botão swap, status)
+│   ├── hooks/                  # Custom hooks (gerenciamento de cotação, cache e estados)
+│   ├── services/               # Cliente HTTP isolado para comunicação com a AwesomeAPI
+│   ├── types/                  # Tipagens e interfaces TypeScript
+│   ├── utils/                  # Formatação monetária (Intl.NumberFormat) e sanitização
+│   ├── App.tsx                 # Composição principal da aplicação
+│   └── main.tsx                # Ponto de entrada React
+├── index.html
+├── package.json
+├── tailwind.config.js
+└── vite.config.ts
