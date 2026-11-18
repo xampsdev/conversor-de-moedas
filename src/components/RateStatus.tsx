@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { ArrowLeftRight, RefreshCw } from "lucide-react";
-import type { ExchangeRates } from "../types/currency";
+import type { CurrencyCode, ExchangeRates } from "../types/currency";
 import { formatExchangeRate, formatTimestamp } from "../utils/formatters";
+import { CurrencyFlag } from "./CurrencyFlag";
 
 interface RateStatusProps {
   rates: ExchangeRates | null;
@@ -21,6 +22,9 @@ export function RateStatus({
   onRefresh,
 }: RateStatusProps) {
   const [invertedRate, setInvertedRate] = useState(false);
+
+  const baseCurrency: CurrencyCode = invertedRate ? "BRL" : "USD";
+  const quoteCurrency: CurrencyCode = invertedRate ? "USD" : "BRL";
 
   const rateText = (() => {
     if (!rates) return null;
@@ -42,6 +46,16 @@ export function RateStatus({
           }`}
           aria-hidden="true"
         />
+
+        {rates && !isLoading && (
+          <div className="flex shrink-0 items-center" aria-hidden="true">
+            <CurrencyFlag currency={baseCurrency} className="h-4 w-4" />
+            <CurrencyFlag
+              currency={quoteCurrency}
+              className="-ml-1.5 h-4 w-4 ring-slate-900"
+            />
+          </div>
+        )}
 
         {isLoading && !rates ? (
           <div className="h-4 w-44 animate-pulse rounded bg-slate-800" />

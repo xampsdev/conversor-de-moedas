@@ -2,6 +2,7 @@ import { useId, useRef, useState, type ReactNode } from "react";
 import { Check, Copy } from "lucide-react";
 import type { CurrencyCode } from "../types/currency";
 import { CURRENCY_META } from "../utils/formatters";
+import { CurrencyFlag } from "./CurrencyFlag";
 
 interface CurrencyCardProps {
   roleLabel: string;
@@ -17,13 +18,9 @@ interface CurrencyCardProps {
 }
 
 function CurrencyBadge({ currency }: { currency: CurrencyCode }) {
-  const shortCountry = currency === "BRL" ? "BR" : "US";
-
   return (
-    <div className="flex shrink-0 select-none items-center gap-2 rounded-full border border-white/10 bg-slate-800/90 px-3 py-1.5 shadow-sm">
-      <span className="font-sans text-xs font-medium tracking-wide text-slate-300">
-        {shortCountry}
-      </span>
+    <div className="flex min-w-[84px] shrink-0 select-none items-center gap-2.5 rounded-full border border-white/10 bg-slate-800/90 py-1 pl-1.5 pr-3 shadow-sm transition-colors duration-200 sm:min-w-[92px]">
+      <CurrencyFlag currency={currency} />
       <span className="font-display text-sm font-bold tracking-tight text-white sm:text-base">
         {currency}
       </span>
